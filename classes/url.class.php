@@ -24,9 +24,9 @@ class url {
     }
 
     private function setDefault () {
-        $this->config->setDefault("player-url", "http://$_SERVER[HTTP_HOST]/{page}/{player}/");
-        $this->config->setDefault("default-url", "http://$_SERVER[HTTP_HOST]/{page}/");
-        $this->config->setDefault("ajax-base-url", "http://$_SERVER[HTTP_HOST]/ajax/");
+        $this->config->setDefault("player-url", "https://$_SERVER[HTTP_HOST]/{page}/{player}/");
+        $this->config->setDefault("default-url", "https://$_SERVER[HTTP_HOST]/{page}/");
+        $this->config->setDefault("ajax-base-url", "https://$_SERVER[HTTP_HOST]/ajax/");
         $this->config->setDefault("default-player-page", "player");
         $this->config->setDefault("useUUID", "true");
     }
