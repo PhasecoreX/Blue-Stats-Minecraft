@@ -7,7 +7,40 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        <img src="https://cravatar.eu/3d/{{ playername }}/800" alt="" style="width:100%; max-width:300px;">
+        <div id="skin_container"></div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js"></script>
+	    <script type="text/javascript" src="assets/skinview3d.min.js"></script>
+	    <script>
+	        var isWebGLAvailable = function () {
+	            try {
+		            var canvas = document.createElement( 'canvas' );
+		            return !! ( window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ) );
+	            } catch ( e ) {
+		            return false;
+                }
+            };
+	        if (isWebGLAvailable()) {
+		        let skinViewer = new skinview3d.SkinViewer({
+			        domElement: document.getElementById("skin_container"),
+			        height: 500,
+			        skinUrl: "https://crafatar.com/skins/{{ playeruuid }}.png"
+		        });
+		        let control = new skinview3d.createOrbitControls(skinViewer);
+		        skinViewer.animation = new skinview3d.CompositeAnimation();
+		        let walk = skinViewer.animation.add(skinview3d.WalkingAnimation);
+		        walk.speed = 1.5;
+		        let rotate = skinViewer.animation.add(skinview3d.RotatingAnimation);
+	        } else {
+	            var skin_element = document.createElement("img");
+	            skin_element.setAttribute("src", "https://cravatar.eu/3d/{{ playeruuid }}/800");
+                skin_element.setAttribute("width", "100%");
+                skin_element.setAttribute("max-width", "300px");
+	            document.getElementById("skin_container").appendChild(skin_element);
+	        }
+	    </script>
+	    <noscript>
+	        <img src="https://cravatar.eu/3d/{{ playername }}/800" alt="" style="width:100%; max-width:300px;">
+        </noscript>
     </div>
     <div class="col-md-9">
         {{ module:player }}
