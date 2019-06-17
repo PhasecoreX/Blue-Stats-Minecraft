@@ -7,6 +7,10 @@ require "../classes/config.class.php";
 
 $dbConf = json_decode(file_get_contents("../config.json"), TRUE);
 
+if (isset($dbConf["disable_admin_login"]) && $dbConf["disable_admin_login"] == TRUE) {
+    die("Admin config is disabled");
+}
+
 $mysqli = new mysqli(
     $dbConf["mysql"]["host"],
     $dbConf["mysql"]["username"],
