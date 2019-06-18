@@ -77,6 +77,12 @@ class pluginPlayer {
 
         // Select the name from the player identification table using the id column for identification
         $query = "SELECT {$this->database["index"]["columns"]["name"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["id"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $id);
             $stmt->execute();
@@ -112,6 +118,12 @@ class pluginPlayer {
 
         // Select the uuid from the player identification table using the id column for identification
         $query = "SELECT {$this->database["index"]["columns"]["uuid"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["id"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $id);
             $stmt->execute();
@@ -142,6 +154,12 @@ class pluginPlayer {
 
         // Select the id from the player identification table using the uuid column for identification
         $query = "SELECT {$this->database["index"]["columns"]["id"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["uuid"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $uuid);
             $stmt->execute();
@@ -172,6 +190,12 @@ class pluginPlayer {
 
         // Select the id from the player identification table using the name column for identification
         $query = "SELECT {$this->database["index"]["columns"]["id"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["name"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $name);
             $stmt->execute();
@@ -202,6 +226,12 @@ class pluginPlayer {
 
         // Select the id from the player identification table using the name column for identification
         $query = "SELECT {$this->database["index"]["columns"]["uuid"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["name"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $name);
             $stmt->execute();
@@ -232,6 +262,12 @@ class pluginPlayer {
 
         // Select the id from the player identification table using the name column for identification
         $query = "SELECT {$this->database["index"]["columns"]["name"]} FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["uuid"]} = ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $name);
             $stmt->execute();
@@ -279,7 +315,14 @@ class pluginPlayer {
         $start = $page * $limit;
 
         // Select the id from the player identification table using the uuid column for identification
-        $query = "SELECT {$this->database["index"]["columns"]["id"]} as id, {$this->database["index"]["columns"]["name"]} as name, {$this->database["index"]["columns"]["uuid"]} as uuid FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["name"]} LIKE ? LIMIT ?,?";
+        $query = "SELECT {$this->database["index"]["columns"]["id"]} as id, {$this->database["index"]["columns"]["name"]} as name, {$this->database["index"]["columns"]["uuid"]} as uuid FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["name"]} LIKE ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
+        $query .= " LIMIT ?,?";
         if ($stmt->prepare($query)) {
             $stmt->bind_param("sii", $name, $start, $limit);
             $stmt->execute();
@@ -313,7 +356,14 @@ class pluginPlayer {
         $start = $page * $limit;
 
         // Select the id from the player identification table using the uuid column for identification
-        $query = "SELECT {$this->database["index"]["columns"]["id"]} as id, {$this->database["index"]["columns"]["name"]} as name, {$this->database["index"]["columns"]["uuid"]} as uuid FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["uuid"]} LIKE ? LIMIT ?,?";
+        $query = "SELECT {$this->database["index"]["columns"]["id"]} as id, {$this->database["index"]["columns"]["name"]} as name, {$this->database["index"]["columns"]["uuid"]} as uuid FROM {$this->database["prefix"]}{$this->database["index"]["table"]} WHERE {$this->database["index"]["columns"]["uuid"]} LIKE ?";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " AND {$this->database["index"]["where"]}";
+        }
+
+        $query .= " LIMIT ?,?";
         if ($stmt->prepare($query)) {
             $stmt->bind_param("sii", $uuid, $start, $limit);
             $stmt->execute();
@@ -337,6 +387,12 @@ class pluginPlayer {
 
         // Select the id from the player identification table using the uuid column for identification
         $query = "SELECT count(*) as count FROM {$this->database["prefix"]}{$this->database["index"]["table"]}";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["index"])) {
+            $query .= " WHERE {$this->database["index"]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->execute();
             $stmt->bind_result($count);

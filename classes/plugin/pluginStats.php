@@ -80,6 +80,11 @@ class pluginStats {
 
         $query .= " FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]} WHERE {$this->database["stats"][$stat]["user_identifier"]} = ?";
 
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["stats"][$stat])) {
+            $query .= " AND {$this->database["stats"][$stat]["where"]}";
+        }
+
         if ($combineWorlds) {
             $groupBy = "GROUP BY ";
             foreach ($this->database["stats"][$stat]["values"] as $info) {
@@ -132,7 +137,14 @@ class pluginStats {
         if (isset($this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"]))
             $aggregateType = $this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"];
 
-        $query = "SELECT {$this->database["stats"][$stat]["user_identifier"]} as id, {$aggregateType}($aggregateColumn) as aggregate FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]} GROUP BY {$this->database["stats"][$stat]["user_identifier"]} ORDER BY $aggregateType($aggregateColumn) DESC LIMIT ?";
+        $query = "SELECT {$this->database["stats"][$stat]["user_identifier"]} as id, {$aggregateType}($aggregateColumn) as aggregate FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]}";
+
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["stats"][$stat])) {
+            $query .= " WHERE {$this->database["stats"][$stat]["where"]}";
+        }
+
+        $query .= " GROUP BY {$this->database["stats"][$stat]["user_identifier"]} ORDER BY $aggregateType($aggregateColumn) DESC LIMIT ?";
 
         if ($stmt->prepare($query)) {
             $stmt->bind_param("i", $limit);
