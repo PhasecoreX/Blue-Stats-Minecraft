@@ -30,7 +30,7 @@ class formatter {
     }
 
     public function time($value) {
-        return secondsToTime($value);
+        return secondsToTime(round($value));
     }
 
     public function itemName($value) {
