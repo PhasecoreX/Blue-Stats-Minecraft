@@ -39,7 +39,7 @@ $stats   = $this->config->get("stats");
         }
 
         $replace = $plugin->database['stats'][$stat]['text'][$language]['plural'];
-        if ($value === 1)
+        if ($value == 1)
             $replace = $plugin->database['stats'][$stat]['text'][$language]['single'];
 
         $display = $value;
@@ -52,9 +52,9 @@ $stats   = $this->config->get("stats");
                      alt="" style="width:100%;">
                 </a>
                 <div class="panel-body">
-                    <h3 style="margin-top:0;padding:0;"><a
+                    <h4 style="margin-top:0;padding:0;"><a
                                 href="<?= $this->bluestats->url->player($linkId) ?>"><?= isset($username) ? $username : "Nobody" ?></a>
-                    </h3>
+                    </h4>
                     <h6 style="margin-top:0;padding:0;"
                         class="text-muted"><?= str_replace("{VALUE}", $display, $replace) ?></h6>
                 </div>

@@ -79,7 +79,7 @@ $render = function ($module, $plugin, $blocks_names) {
                         $itemID = $value;
                         break;
                     case "item_type":
-                        // If an item type value is recieved assume the item id has already been recieved. Thus, also print the name of the bock into the table
+                        // If an item type value is recieved assume the item id has already been recieved. Thus, also print the name of the block into the table
                         $name = getBlockNameFromID($itemID, $value, $blocks_names) ?: getBlockNameFromID($itemID, 0, $blocks_names) ?: $itemID . '-' . $value;
                         array_push($values, $name);
                         break;
