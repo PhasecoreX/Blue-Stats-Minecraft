@@ -37,6 +37,14 @@ class formatter {
         return ucwords(str_replace('_', ' ', strtolower($value)));
     }
 
+    public function int($value) {
+        return number_format((float)$value, 0, '.', ',');
+    }
+
+    public function round2($value) {
+        return number_format((float)$value, 2, '.', ',');
+    }
+
     public function format($value, $type) {
         switch ($type) {
             case "player_name":
@@ -53,6 +61,13 @@ class formatter {
                 break;
             case "item_name":
                 return $this->itemName($value);
+                break;
+            case "int":
+                return $this->int($value);
+                break;
+            case "round_2":
+                return $this->round2($value);
+                break;
             default:
                 return $value;
         }
