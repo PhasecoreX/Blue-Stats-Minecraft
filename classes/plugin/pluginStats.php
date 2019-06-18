@@ -137,7 +137,7 @@ class pluginStats {
         if (isset($this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"]))
             $aggregateType = $this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"];
 
-        $query = "SELECT {$this->database["stats"][$stat]["user_identifier"]} as id, {$aggregateType}($aggregateColumn) as aggregate FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]}";
+        $query = "SELECT {$this->database["stats"][$stat]["user_identifier"]} as id, '{$this->database["stats"][$stat]["values"][$aggregateID]["dataType"]}' as data_type, {$aggregateType}($aggregateColumn) as aggregate FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]}";
 
         // If there are additional where clauses, insert them here
         if (array_key_exists('where', $this->database["stats"][$stat])) {

@@ -42,7 +42,7 @@ $stats   = $this->config->get("stats");
         if ($value == 1)
             $replace = $plugin->database['stats'][$stat]['text'][$language]['single'];
 
-        $display = $value;
+        $display = $this->bluestats->formatter->format($value, $data[0]['data_type']);
 
         ?>
         <div class="col-md-3 col-sm-4 col-xs-6">
