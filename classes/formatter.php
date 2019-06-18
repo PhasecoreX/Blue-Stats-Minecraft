@@ -23,6 +23,12 @@ class formatter {
         return "<a href=\"" . $this->bluestats->url->player($name) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$name}</a>";
     }
 
+    public function damageSource($value) {
+        if (preg_match('/^[0-9A-Fa-f\-]{36}$|^[0-9A-Fa-f]{32}$/m', $value))
+            return $this->playerUUID($value);
+        return $this->itemName($value);
+    }
+
     public function date($value) {
         if (is_numeric($value))
             return date('H:i m-d-y', $value/1000);
@@ -61,6 +67,9 @@ class formatter {
                 break;
             case "item_name":
                 return $this->itemName($value);
+                break;
+            case "damage_source":
+                return $this->damageSource($value);
                 break;
             case "int":
                 return $this->int($value);
