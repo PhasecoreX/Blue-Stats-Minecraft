@@ -47,9 +47,10 @@ $stats   = $this->config->get("stats");
         ?>
         <div class="col-md-3 col-sm-4 col-xs-6">
             <div class="panel panel-default">
-                <img src="https://minotar.net/helm/<?= isset($username) ? $username : "char" ?>/300.png"
+                <a href="<?= $this->bluestats->url->player($linkId) ?>">
+                    <img src="https://crafatar.com/avatars/<?= isset($uuid) ? $uuid : "00000000000000000000000000000000" ?>?overlay&size=300.png"
                      alt="" style="width:100%;">
-
+                </a>
                 <div class="panel-body">
                     <h3 style="margin-top:0;padding:0;"><a
                                 href="<?= $this->bluestats->url->player($linkId) ?>"><?= isset($username) ? $username : "Nobody" ?></a>

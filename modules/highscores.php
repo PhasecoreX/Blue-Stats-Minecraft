@@ -39,10 +39,10 @@ $render = function ($module, $plugin, $stat) {
         else $uuid = $row['id'];
 
         if ($this->bluestats->url->useUUID) {
-            $name = "<a href=\"" . $module->bluestats->url->player($uuid) . "\"><img src=\"https://minotar.net/helm/$username/32.png\" alt=\"\"> {$username}</a>";
+            $name = "<a href=\"" . $module->bluestats->url->player($uuid) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$username}</a>";
         }
         else {
-            $name = "<a href=\"" . $module->bluestats->url->player($username) . "\"><img src=\"https://minotar.net/helm/$username/32.png\" alt=\"\"> {$username}</a>";
+            $name = "<a href=\"" . $module->bluestats->url->player($username) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$username}</a>";
         }
 
         // Format according to datatype of value

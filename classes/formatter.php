@@ -11,16 +11,16 @@ class formatter {
     public function playerName($value) {
         if ($this->bluestats->url->useUUID) {
             $uuid  = $this->bluestats->basePlugin->player->getUUIDfromName($value);
-            return "<a href=\"" . $this->bluestats->url->player($uuid) . "\"><img src=\"https://minotar.net/helm/{$value}/32.png\" alt=\"\"> {$value}</a>";
+            return "<a href=\"" . $this->bluestats->url->player($uuid) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$value}</a>";
         }
-        return "<a href=\"" . $this->bluestats->url->player($value) . "\"><img src=\"https://minotar.net/helm/{$value}/32.png\" alt=\"\"> {$value}</a>";
+        return "<a href=\"" . $this->bluestats->url->player($value) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$value}</a>";
     }
 
     public function playerUUID($uuid) {
         $name = $this->bluestats->basePlugin->player->getNamefromUUID($uuid);
         if ($this->bluestats->url->useUUID)
-            return "<a href=\"" . $this->bluestats->url->player($uuid) . "\"><img src=\"https://minotar.net/helm/{$name}/32.png\" alt=\"\"> {$name}</a>";
-        return "<a href=\"" . $this->bluestats->url->player($name) . "\"><img src=\"https://minotar.net/helm/{$name}/32.png\" alt=\"\"> {$name}</a>";
+            return "<a href=\"" . $this->bluestats->url->player($uuid) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$name}</a>";
+        return "<a href=\"" . $this->bluestats->url->player($name) . "\"><img src=\"https://crafatar.com/avatars/{$uuid}?overlay&size=32.png\" alt=\"\"> {$name}</a>";
     }
 
     public function date($value) {

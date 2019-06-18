@@ -7,7 +7,7 @@ if (!isset($this->plugins["query"]))
 
 $plugin = $this->plugins["query"];
 
-$this->config->setDefault("image-src", "http://cravatar.eu/avatar/{NAME}/64");
+$this->config->setDefault("image-src", "https://crafatar.com/avatars/{UUID}?overlay&size=64.png");
 $imageSrc = $this->config->get("image-src");
 ?>
 <div class="text-center">
@@ -18,7 +18,7 @@ $imageSrc = $this->config->get("image-src");
             $link = $this->bluestats->basePlugin->player->getUUIDfromName($player);
         ?>
         <a href="<?= $this->bluestats->url->player($link) ?>">
-            <img src="<?= str_replace("{NAME}", $player, $imageSrc) ?>" alt="<?= $player ?>" title="<?= $player ?>"
+            <img src="<?= str_replace("{UUID}", $player, $imageSrc) ?>" alt="<?= $player ?>" title="<?= $player ?>"
                  data-toggle="tooltip" data-placement="top">
         </a>
     <?php endforeach; ?>
