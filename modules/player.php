@@ -55,12 +55,21 @@ $render = function ($module, $plugin, $blocks_names) {
             "combineWorlds" => $combineWorlds,
         ]);
 
+        // Get aggregate stat name
+        $aggregateID = "value";
+        foreach ($info["values"] as $info) {
+            if ($info['aggregate']) {
+                $aggregateID = $info['column'];
+                break;
+            }
+        }
+
         // If retrieved stats are empty, don't bother displaying them
         if (!isset($data) ||
             empty($data) ||
             count($data) === 0 ||
             $data[0] === NULL ||
-            $data[0]['value'] === NULL)
+            $data[0][$aggregateID] === NULL)
             continue;
 
         // Add stat title
