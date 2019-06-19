@@ -188,6 +188,11 @@ class pluginStats {
 
         $query = "SELECT {$aggregateType}($aggregateColumn) as total FROM {$this->database["prefix"]}{$this->database["stats"][$stat]["database"]}";
 
+        // If there are additional where clauses, insert them here
+        if (array_key_exists('where', $this->database["stats"][$stat])) {
+            $query .= " WHERE {$this->database["stats"][$stat]["where"]}";
+        }
+
         if ($stmt->prepare($query)) {
             $stmt->execute();
 
