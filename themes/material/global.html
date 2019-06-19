@@ -19,10 +19,6 @@
 
     <title>{{ server-name }} | {{ title }}</title>
 
-    <script>
-        var loadAllPlayers = false;
-    </script>
-
 </head>
 <body>
 <nav class="navbar navbar-inverse" role="navigation">
@@ -58,52 +54,5 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<script>
-    $(function () {
-        if (loadAllPlayers) {
-            /* AJAX player list */
-            var getPlayers = function (page) {
-                $.ajax('{{ ajax }}?call=allPlayers', {
-                    data: {
-                        page: page,
-                        search: $('#search').val()
-                    }
-                }).success(function (data) {
-                    var url = data.info.url;
-                    $('.players').html('');
-                    for (var i in data.data) {
-                        if (data.data.hasOwnProperty(i)) {
-                            $('.players').append('<div class="col-md-3 col-sm-6"><div class="panel panel-default"><div class="panel-body"><a href="' + url.replace('{UUID}', data.data[i].uuid).replace('{NAME}', data.data[i].name) + '"><img src="https://crafatar.com/avatars/' + data.data[i].uuid + '?overlay&size=32.png"> ' + data.data[i].name + '</a></div></div></div>');
-                        }
-                    }
-                });
-            };
-
-            var currentPage = 0;
-
-            getPlayers(currentPage);
-            $('#search').on("change input", function () {
-                currentPage = 0;
-                getPlayers(currentPage);
-            });
-
-            $('.next').click(function (event) {
-                event.preventDefault();
-                currentPage += 1;
-                getPlayers(currentPage);
-            });
-
-            $('.previous').click(function (event) {
-                event.preventDefault();
-                currentPage -= 1;
-                getPlayers(currentPage);
-            });
-
-            $('.table-sorted').DataTable();
-        }
-    });
-</script>
-
 </body>
 </html>
