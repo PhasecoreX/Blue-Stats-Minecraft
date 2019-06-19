@@ -53,7 +53,7 @@ $render = function ($module, $plugin, $blocks_names) {
         }
         call_user_func_array([$table, 'makeHeader'], $values);
 
-        $output .= $table->tableToHTML();
+        $output .= $table->tableToHTML(FALSE);
     }
 
     // Loop through all defined stats in plugin definition
@@ -61,7 +61,7 @@ $render = function ($module, $plugin, $blocks_names) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
 
-        if (!$info['display']) break;
+        if (!$info['display']) continue;
 
         $statName = $plugin->database["stats"][$stat]["name"];
         $table    = New Table();
