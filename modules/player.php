@@ -33,7 +33,6 @@ $render = function ($module, $plugin, $blocks_names) {
 
         foreach ($plugin->database["totals"][$groupId]['stats'] as $stat) {
             $values = [$plugin->database['stats'][$stat]['name']];
-            print_r($values);
             $data = $plugin->stats->player($module->player, $stat, [
                 "summary" => true,
             ]);
@@ -92,7 +91,6 @@ $render = function ($module, $plugin, $blocks_names) {
 
         $output .= $table->tableToHTML();
     }
-
 
     // Loop through all defined stats in plugin definition
     foreach ($plugin->database['stats'] as $stat => $info) {
