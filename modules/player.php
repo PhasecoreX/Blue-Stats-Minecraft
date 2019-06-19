@@ -123,7 +123,7 @@ $render = function ($module, $plugin, $blocks_names) {
             empty($data) ||
             count($data) === 0 ||
             $data[0] === NULL ||
-            $data[0][$aggregateID] === NULL)
+            $data[0][$aggregateName] === NULL)
             continue;
 
         // Add stat title
