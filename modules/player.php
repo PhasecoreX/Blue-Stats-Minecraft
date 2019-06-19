@@ -8,76 +8,40 @@ $render = function ($module, $plugin, $blocks_names) {
 
     $output = "";
 
-    if (!isset($plugin->database['totals'])) {
-        $plugin->database['totals'] = [];
-    }
-
     if (!isset($plugin->database['groups'])) {
         $plugin->database['groups'] = [];
     }
 
-    // First render the totals defined in the plugin definition
-    foreach ($plugin->database['totals'] as $groupId => $info) {
-        // Set default stat options
-        if (!isset($info['display'])) {
-            $info['display'] = true;
-        }
-
-        // If group is set to not display, break now to stop rendering
-        if (!$info['display']) {
-            break;
-        }
-
-        $output .= "<h4>{$plugin->database["totals"][$groupId]["name"]}</h4>";
-        $table = new Table();
-
-        foreach ($plugin->database["totals"][$groupId]['stats'] as $stat) {
-            $values = [$plugin->database['stats'][$stat]['name']];
-            $data = $plugin->stats->player($module->player, $stat, [
-                "summary" => true,
-            ]);
-            // Get aggregate stat name
-            $aggregateName = "value";
-            foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
-                if ($columns['aggregate']) {
-                    $aggregateName = $columns['column'];
-                    break;
-                }
-            }
-            foreach ($data[0] as $key => $entry) {
-                if ($key == $aggregateName)
-                    array_push($values, $entry);
-            }
-
-            call_user_func_array([$table, 'addRecord'], $values);
-        }
-
-        // Generate header for table
-        $values = [];
-
-        foreach ($plugin->database["totals"][$groupId]['headers'] as $entry) {
-            array_push($values, $entry);
-        }
-        call_user_func_array([$table, 'makeHeader'], $values);
-
-        $output .= $table->tableToHTML();
-    }
-
-    // Second render the groups defined in the plugin definition
+    // First render the groups defined in the plugin definition
     foreach ($plugin->database['groups'] as $groupId => $info) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
 
         // If group is set to not display, break now to stop rendering
-        if (!$info['display']) break;
+        if (!$info['display']) continue;
 
         $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
         $table  = New Table();
 
         foreach ($plugin->database["groups"][$groupId]['stats'] as $stat) {
             $values = [$plugin->database['stats'][$stat]['name']];
-            $data   = $plugin->stats->player($module->player, $stat);
-            foreach ($data[0] as $key => $entry) array_push($values, $entry);
+            $data   = $plugin->stats->player($module->player, $stat, [
+                "summary" => TRUE,
+            ]);
+            // Get aggregate stat name and formatter
+            $aggregateName = "value";
+            $formatter = "int";
+            foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
+                if ($columns['aggregate']) {
+                    $aggregateName = $columns['column'];
+                    $formatter = $columns['dataType'];
+                    break;
+                }
+            }
+            foreach ($data[0] as $key => $entry) {
+                if ($key == $aggregateName)
+                    array_push($values, $module->bluestats->formatter->format($entry, $formatter));
+            }
             call_user_func_array([$table, 'addRecord'], $values);
         }
 
