@@ -8,9 +8,63 @@ $render = function ($module, $plugin, $blocks_names) {
 
     $output = "";
 
-    if (!isset($plugin->database['groups'])) $plugin->database['groups'] = [];
+    if (!isset($plugin->database['totals'])) {
+        $plugin->database['totals'] = [];
+    }
 
-    // First render the groups defined in the plugin definition
+    if (!isset($plugin->database['groups'])) {
+        $plugin->database['groups'] = [];
+    }
+
+    // First render the totals defined in the plugin definition
+    foreach ($plugin->database['totals'] as $groupId => $info) {
+        // Set default stat options
+        if (!isset($info['display'])) {
+            $info['display'] = true;
+        }
+
+        // If group is set to not display, break now to stop rendering
+        if (!$info['display']) {
+            break;
+        }
+
+        $output .= "<h4>{$plugin->database["totals"][$groupId]["name"]}</h4>";
+        $table = new Table();
+
+        foreach ($plugin->database["totals"][$groupId]['stats'] as $stat) {
+            $values = [$plugin->database['stats'][$stat]['name']];
+            print_r($values);
+            $data = $plugin->stats->player($module->player, $stat, [
+                "summary" => true,
+            ]);
+            // Get aggregate stat name
+            $aggregateName = "value";
+            foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
+                if ($columns['aggregate']) {
+                    $aggregateName = $columns['column'];
+                    break;
+                }
+            }
+            foreach ($data[0] as $key => $entry) {
+                if ($key == $aggregateName)
+                    array_push($values, $entry);
+            }
+
+            call_user_func_array([$table, 'addRecord'], $values);
+        }
+
+        // Generate header for table
+        $values = [];
+
+        foreach ($plugin->database["totals"][$groupId]['headers'] as $entry) {
+            array_push($values, $entry);
+        }
+        call_user_func_array([$table, 'makeHeader'], $values);
+
+        $output .= $table->tableToHTML();
+    }
+
+    // Second render the groups defined in the plugin definition
     foreach ($plugin->database['groups'] as $groupId => $info) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
@@ -56,10 +110,10 @@ $render = function ($module, $plugin, $blocks_names) {
         ]);
 
         // Get aggregate stat name
-        $aggregateID = "value";
-        foreach ($info["values"] as $info) {
-            if ($info['aggregate']) {
-                $aggregateID = $info['column'];
+        $aggregateName = "value";
+        foreach ($info["values"] as $column) {
+            if ($column['aggregate']) {
+                $aggregateName = $column['column'];
                 break;
             }
         }
