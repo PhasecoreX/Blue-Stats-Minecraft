@@ -26,7 +26,7 @@ class McMMO extends plugin {
                 "name" => "Skills",
                 "headers" => [
                     "Stat",
-                    "Value"
+                    "Level"
                 ],
                 "stats"      => [
                     "acrobatics_skill",
@@ -49,7 +49,7 @@ class McMMO extends plugin {
                 "name" => "Experience",
                 "headers" => [
                     "Stat",
-                    "Value"
+                    "Experience"
                 ],
                 "stats"      => [
                     "acrobatics_experience",
