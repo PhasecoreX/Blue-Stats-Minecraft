@@ -1,63 +1,77 @@
 <?php
-/** @var module $this */
-$blocks_names = json_decode(file_get_contents($this->bluestats->appPath . "/items.json"), TRUE);
+// Option to whether or not to put the highscore in a bootstrap panel
+$this->config->setDefault("panelEnable", TRUE);
+$panelEnable = $this->config->get("panelEnable");
 
-$render = function ($module, $plugin, $blocks_names) {
-    $output = "";
+$render = function ($module, $plugin, $statGroup, $headers) {
+    $table  = New Table();
 
-    if (!isset($plugin->database['groups'])) {
-        $plugin->database['groups'] = [];
+    foreach ($statGroup as $stat) {
+        $values = [$plugin->database['stats'][$stat]['name']];
+        $data   = $plugin->stats->sum($stat);
+
+        // Get aggregate stat formatter
+        $formatter = "int";
+        foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
+            if ($columns['aggregate']) {
+                $formatter = $columns['dataType'];
+                break;
+            }
+        }
+        array_push($values, $module->bluestats->formatter->format($data, $formatter));
+        call_user_func_array([$table, 'addRecord'], $values);
     }
 
-    // First render the groups defined in the plugin definition
-    foreach ($plugin->database['groups'] as $groupId => $info) {
+    // Generate header for table
+    $values = [];
+
+    foreach ($headers as $entry) {
+        array_push($values, $entry);
+    }
+    call_user_func_array([$table, 'makeHeader'], $values);
+
+    return $table->tableToHTML(FALSE);
+};
+
+echo "<h2>Grand Totals</h2>";
+
+/** @var module $this */
+foreach ($this->bluestats->plugins as $plugin) {
+    /** @var \BlueStats\API\plugin $plugin */
+    if (!$plugin::$isMySQLplugin)
+        continue;
+
+    echo "<h3>{$plugin->name}</h3>";
+
+    if (!isset($plugin->database['groups'])) $plugin->database['groups'] = [];
+
+    echo "<div class='row'>";
+    
+    foreach ($plugin->database['groups'] as $groupId => $group) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
 
         // If group is set to not display, break now to stop rendering
         if (!$info['display']) continue;
 
-        $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
-        $table  = New Table();
 
-        foreach ($plugin->database["groups"][$groupId]['stats'] as $stat) {
-            $values = [$plugin->database['stats'][$stat]['name']];
-            $data   = $plugin->stats->sum($stat);
-            // Get aggregate stat formatter
-            $formatter = "int";
-            foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
-                if ($columns['aggregate']) {
-                    $formatter = $columns['dataType'];
-                    break;
-                }
-            }
-            array_push($values, $module->bluestats->formatter->format($data, $formatter));
-            call_user_func_array([$table, 'addRecord'], $values);
-        }
-
-        // Generate header for table
-        $values = [];
-
-        foreach ($plugin->database["groups"][$groupId]['headers'] as $entry) {
-            array_push($values, $entry);
-        }
-        call_user_func_array([$table, 'makeHeader'], $values);
-
-        $output .= $table->tableToHTML(FALSE);
+        if ($panelEnable): ?>
+            <div class='col-md-6'>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><?= $group['name'] ?></h4>
+                    </div>
+                    <div class="panel-body">
+                        <?= $render($this, $plugin, $group['stats'], $plugin->database["groups"][$groupId]['headers']); ?>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class='col-md-6'>
+                <h4><?= $group['name'] ?></h4>
+                <?= $render($this, $plugin, $group['stats'], $plugin->database["groups"][$groupId]['headers']); ?>
+            </div>
+        <?php endif;
     }
-
-    return $output;
-};
-
-if (isset($this->args[0]))
-    return print($render($this, $this->bluestats->plugins[$this->args[0]], $blocks_names));
-
-$output = "";
-
-/** @var \BlueStats\API\plugin $plugin */
-foreach ($this->bluestats->plugins as $plugin) {
-    if ($plugin::$isMySQLplugin)
-        $output .= "<h3>$plugin->name Grand Totals</h3>" . $render($this, $plugin, $blocks_names);
+    echo "</div>";
 }
-
-echo $output;
