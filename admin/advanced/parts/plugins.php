@@ -43,7 +43,7 @@
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             ?>
             <a href="?plugin=<?= urlencode($row["plugin"]) ?>"
-               class="list-group-item <?php if ($_GET["plugin"] === $row["plugin"]) echo 'active' ?>">
+               class="list-group-item <?php if (array_key_exists("plugin", $_GET) && $_GET["plugin"] === $row["plugin"]) echo 'active' ?>">
                 <?= substr($row["plugin"], strlen("MODULE__")) ?>
             </a>
             <?php
