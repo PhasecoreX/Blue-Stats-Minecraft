@@ -18,6 +18,14 @@ class pluginPlayer {
     /** @var \mysqli $mysqli */
     private $mysql;   // Loaded from parent plugin class
 
+    // Caches
+    private $nameFromIdCache;
+    private $uuidFromIdCache;
+    private $idFromUuidCache;
+    private $idFromNameCache;
+    private $uuidFromNameCache;
+    private $nameFromUuidCache;
+
     /**
      * pluginPlayer constructor.
      *
@@ -27,6 +35,12 @@ class pluginPlayer {
     public function __construct ($database, $mysql) {
         $this->database = $database;
         $this->mysql    = $mysql;
+        $this->nameFromIdCache = array();
+        $this->uuidFromIdCache = array();
+        $this->idFromUuidCache = array();
+        $this->idFromNameCache = array();
+        $this->uuidFromNameCache = array();
+        $this->nameFromUuidCache = array();
     }
 
     /**
@@ -72,6 +86,9 @@ class pluginPlayer {
         if (!isset($this->database["index"]["columns"]["id"]))
             return FALSE;
 
+        if (array_key_exists($id, $this->nameFromIdCache))
+            return $this->nameFromIdCache[$id];
+
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
 
@@ -95,6 +112,8 @@ class pluginPlayer {
 
             $stmt->close();
 
+            $this->nameFromIdCache[$id] = $output;
+
             return $output;
         }
 
@@ -112,6 +131,9 @@ class pluginPlayer {
         // Return false if ID column is not set
         if (!isset($this->database["index"]["columns"]["id"]))
             return FALSE;
+
+        if (array_key_exists($id, $this->uuidFromIdCache))
+            return $this->uuidFromIdCache[$id];
 
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
@@ -136,6 +158,8 @@ class pluginPlayer {
 
             $stmt->close();
 
+            $this->uuidFromIdCache[$id] = $output;
+
             return $output;
         }
 
@@ -149,6 +173,9 @@ class pluginPlayer {
      */
 
     public function getIDfromUUID ($uuid) {
+        if (array_key_exists($uuid, $this->idFromUuidCache))
+            return $this->idFromUuidCache[$uuid];
+
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
 
@@ -172,6 +199,8 @@ class pluginPlayer {
 
             $stmt->close();
 
+            $this->idFromUuidCache[$uuid] = $output;
+
             return $output;
         }
 
@@ -185,6 +214,9 @@ class pluginPlayer {
      */
 
     public function getIDfromName ($name) {
+        if (array_key_exists($name, $this->idFromNameCache))
+            return $this->idFromNameCache[$name];
+
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
 
@@ -208,6 +240,8 @@ class pluginPlayer {
 
             $stmt->close();
 
+            $this->idFromNameCache[$name] = $output;
+
             return $output;
         }
 
@@ -221,6 +255,9 @@ class pluginPlayer {
      */
 
     public function getUUIDfromName ($name) {
+        if (array_key_exists($name, $this->uuidFromNameCache))
+            return $this->uuidFromNameCache[$name];
+
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
 
@@ -244,6 +281,8 @@ class pluginPlayer {
 
             $stmt->close();
 
+            $this->uuidFromNameCache[$name] = $output;
+
             return $output;
         }
 
@@ -257,6 +296,9 @@ class pluginPlayer {
      */
 
     public function getNamefromUUID ($name) {
+        if (array_key_exists($name, $this->nameFromUuidCache))
+            return $this->nameFromUuidCache[$name];
+
         $mysqli = $this->mysql;
         $stmt   = $mysqli->stmt_init();
 
@@ -279,6 +321,8 @@ class pluginPlayer {
                 print($stmt->error);
 
             $stmt->close();
+
+            $this->nameFromUuidCache[$name] = $output;
 
             return $output;
         }
