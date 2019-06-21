@@ -14,11 +14,16 @@ class query extends plugin {
     public        $name          = 'query';
     public        $Query;
     public        $info;
-
-    public $onlinePlayers;
+    public        $onlinePlayers;
 
     public function __construct ($mysql) {
         parent::__construct($mysql);
+    }
+
+    public function onlinePlayers () {
+        if (isset($this->onlinePlayers))
+            return $this->onlinePlayers ?: [];
+        $this->onlinePlayers = array();
         $this->config->setDefault("ip", "127.0.0.1");
         $this->config->setDefault("port", "25565");
         $this->Query = new MinecraftQuery();
@@ -30,10 +35,6 @@ class query extends plugin {
             // $e->getMessage();
             // TODO: Display user friendly error when server can't be reached
         }
-    }
-
-    public function onlinePlayers () {
         return $this->onlinePlayers ?: [];
     }
-
 }
