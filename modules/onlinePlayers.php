@@ -14,11 +14,14 @@ $imageSrc = $this->config->get("image-src");
     <?php
     foreach ($plugin->onlinePlayers() as $player):
         $link = $player;
-        if ($this->bluestats->url->useUUID)
+        $imageSrc = str_replace("{NAME}", $player, $imageSrc);
+        if ($this->bluestats->url->useUUID) {
             $link = $this->bluestats->basePlugin->player->getUUIDfromName($player);
+            $imageSrc = str_replace("{UUID}", $link, $imageSrc);
+        }
         ?>
         <a href="<?= $this->bluestats->url->player($link) ?>">
-            <img src="<?= str_replace("{UUID}", $player, $imageSrc) ?>" alt="<?= $player ?>" title="<?= $player ?>"
+            <img src="<?= $imageSrc ?>" alt="<?= $player ?>" title="<?= $player ?>"
                  data-toggle="tooltip" data-placement="top">
         </a>
     <?php endforeach; ?>
