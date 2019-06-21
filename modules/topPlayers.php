@@ -1,9 +1,9 @@
 <?php
 /** @var module $this */
-$this->loadPlugin("Statz");
+$this->loadPlugin($this->bluestats->basePlugin->name);
 
 /** @var \BlueStats\API\plugin $plugin */
-$plugin = $this->plugins['Statz'];
+$plugin = $this->plugins[$this->bluestats->basePlugin->name];
 
 $this->config->setDefault("stats", ['votes', 'teleports', 'deaths', 'blocks_broken']);
 
