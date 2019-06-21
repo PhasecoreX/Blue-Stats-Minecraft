@@ -36,6 +36,11 @@ class url {
     }
 
     public function page ($page) {
-        return str_replace("{page}", $page, $this->urls["default"]);
+        if ($page == "home")
+            $page = "";
+        $result = str_replace("{page}", $page, $this->urls["default"]);
+        if ($page == "")
+            return substr($result, 0, -1);
+        return $result;
     }
 }
