@@ -37,7 +37,7 @@ class view {
         $this->bluestats->config->setDefault('page-names', [
             'home'       => 'Home',
             'allPlayers' => 'All Players',
-            'highscores' => 'Highscores',
+            'highscores' => 'High Scores',
             'player'     => 'Player | {{ playername }}',
         ]);
 
