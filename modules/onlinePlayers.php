@@ -20,14 +20,14 @@ $imageSrc = $this->config->get("image-src");
     <?php
     foreach ($statusPlugin->onlinePlayers() as $player):
         $link = $player;
-        $imageSrc = str_replace("{NAME}", $player, $imageSrc);
+        $image = str_replace("{NAME}", $player, $imageSrc);
         if ($this->bluestats->url->useUUID) {
             $link = $this->bluestats->basePlugin->player->getUUIDfromName($player);
-            $imageSrc = str_replace("{UUID}", $link, $imageSrc);
+            $image = str_replace("{UUID}", $link, $image);
         }
         ?>
         <a href="<?= $this->bluestats->url->player($link) ?>">
-            <img src="<?= $imageSrc ?>" alt="<?= $player ?>" title="<?= $player ?>"
+            <img src="<?= $image ?>" alt="<?= $player ?>" title="<?= $player ?>"
                  data-toggle="tooltip" data-placement="top">
         </a>
     <?php endforeach; ?>
