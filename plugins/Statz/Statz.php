@@ -4,9 +4,9 @@ namespace BlueStats\Plugin;
 
 use BlueStats\API\plugin;
 
-
-class Statz extends plugin {
-
+class Statz extends plugin
+{
+    public static $pluginType    = 'stat';
     public static $isMySQLplugin = TRUE;
     public        $name          = 'Statz';
     public        $database      = [

@@ -38,7 +38,7 @@ echo "<h2>Grand Totals</h2>";
 /** @var module $this */
 foreach ($this->bluestats->plugins as $plugin) {
     /** @var \BlueStats\API\plugin $plugin */
-    if (!$plugin::$isMySQLplugin)
+    if (!($plugin::$pluginType == 'stat'))
         continue;
 
     echo "<h3>{$plugin->name}</h3>";

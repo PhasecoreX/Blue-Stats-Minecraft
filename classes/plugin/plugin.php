@@ -8,7 +8,9 @@ use mysqli;
 require_once "pluginPlayer.php";
 require_once "pluginStats.php";
 
-abstract class plugin {
+abstract class plugin
+{
+    public static $pluginType    = 'stat';
     public static $isMySQLplugin = TRUE;
     public        $name          = 'A plugin';
     public        $stats;
@@ -82,12 +84,14 @@ abstract class plugin {
             // Set table prefix
             $this->database['prefix'] = $this->config->get("MYSQL_prefix");
 
-            // Initiate Player and Stats objects. These are used to perform the queries
-            $this->player = new pluginPlayer($this->database, $this->mysql);
-            $this->stats  = new pluginStats($this->database, $this->mysql);
+            if ($this::$pluginType == 'stat') {
+                // Initiate Player and Stats objects. These are used to perform the queries
+                $this->player = new pluginPlayer($this->database, $this->mysql);
+                $this->stats  = new pluginStats($this->database, $this->mysql);
 
-            // Pass player object to stats object to allow uuid/name translation
-            $this->stats->setPluginPlayer($this->player);
+                // Pass player object to stats object to allow uuid/name translation
+                $this->stats->setPluginPlayer($this->player);
+            }
         }
     }
 }

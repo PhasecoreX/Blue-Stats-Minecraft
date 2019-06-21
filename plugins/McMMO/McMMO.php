@@ -4,9 +4,9 @@ namespace BlueStats\Plugin;
 
 use BlueStats\API\plugin;
 
-
-class McMMO extends plugin {
-
+class McMMO extends plugin
+{
+    public static $pluginType    = 'stat';
     public static $isMySQLplugin = TRUE;
     public        $name          = 'McMMO';
     public        $database      = [

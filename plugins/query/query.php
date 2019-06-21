@@ -8,8 +8,9 @@ use xPaw\MinecraftQueryException;
 
 require "minecraftQuery.php";
 
-class query extends plugin {
-
+class query extends plugin
+{
+    public static $pluginType    = 'query';
     public static $isMySQLplugin = FALSE;
     public        $name          = 'query';
     public        $Query;

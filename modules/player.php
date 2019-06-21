@@ -147,7 +147,7 @@ $output = "";
 
 /** @var \BlueStats\API\plugin $plugin */
 foreach ($this->bluestats->plugins as $plugin) {
-    if ($plugin::$isMySQLplugin)
+    if ($plugin::$pluginType == 'stat')
         $output .= "<h3>$plugin->name</h3>" . $render($this, $plugin, $blocks_names);
 }
 
