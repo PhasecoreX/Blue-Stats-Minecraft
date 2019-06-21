@@ -7,7 +7,19 @@ $this->config->setDefault("playerStatus", TRUE);
 
 $panelEnable = $this->config->get("panelEnable");
 $this->count = $this->config->get("count");
-$this->status = $this->config->get("playerStatus");
+
+if($this->config->get("playerStatus")) {
+    foreach ($this->bluestats->plugins as $plugin) {
+        /** @var \BlueStats\API\plugin $plugin */
+        if ($plugin::$isMySQLplugin)
+            continue;
+        $this->loadPlugin($plugin->name);
+        if (isset($this->plugins[$plugin->name])) {
+            $this->statusPlugin = $this->plugins[$plugin->name];
+            break;
+        }
+    }
+}
 
 $render = function ($module, $plugin, $stat) {
     $info = $plugin->database['stats'][$stat];
@@ -51,8 +63,8 @@ $render = function ($module, $plugin, $stat) {
         $values = [];
         array_push($values, $name);
 
-        if ($this->status && isset($this->bluestats->plugins['query'])) {
-            if (in_array($name, $this->bluestats->plugins['query']->onlinePlayers())) {
+        if (isset($this->statusPlugin)) {
+            if (in_array($username, $this->statusPlugin->onlinePlayers())) {
                 array_push($values, '<span class="label label-success">Online</span>');
             }
             else {
@@ -69,7 +81,7 @@ $render = function ($module, $plugin, $stat) {
     // Dynamically create headers based on config options
     $headers = [];
     array_push($headers, 'Player');
-    if ($this->status && isset($this->bluestats->plugins['query']))
+    if (isset($this->statusPlugin))
         array_push($headers, 'Status');
     array_push($headers, $info['name']);
 

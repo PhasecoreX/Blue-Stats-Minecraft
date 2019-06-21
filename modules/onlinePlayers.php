@@ -1,18 +1,24 @@
 <?php
 /** @var module $this */
-$this->loadPlugin("query");
-
-if (!isset($this->plugins["query"]))
+foreach ($this->bluestats->plugins as $plugin) {
+    /** @var \BlueStats\API\plugin $plugin */
+    if ($plugin::$isMySQLplugin)
+        continue;
+    $this->loadPlugin($plugin->name);
+    if (isset($this->plugins[$plugin->name])) {
+        $statusPlugin = $this->plugins[$plugin->name];
+        break;
+    }
+}
+if (!isset($statusPlugin))
     return;
-
-$plugin = $this->plugins["query"];
 
 $this->config->setDefault("image-src", "https://crafatar.com/avatars/{UUID}?overlay&size=64.png");
 $imageSrc = $this->config->get("image-src");
 ?>
 <div class="text-center">
     <?php
-    foreach ($plugin->onlinePlayers() as $player):
+    foreach ($statusPlugin->onlinePlayers() as $player):
         $link = $player;
         $imageSrc = str_replace("{NAME}", $player, $imageSrc);
         if ($this->bluestats->url->useUUID) {
