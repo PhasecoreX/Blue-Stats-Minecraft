@@ -106,6 +106,9 @@ foreach ($this->bluestats->plugins as $plugin) {
         echo "<div class='row'>";
         foreach ($group['stats'] as $stat) {
             $info = $plugin->database['stats'][$stat];
+            $renderResult = $render($this, $plugin, $stat);
+            if (!$renderResult)
+                continue;
 
             if ($panelEnable): ?>
                 <div class='col-md-6'>
@@ -114,14 +117,14 @@ foreach ($this->bluestats->plugins as $plugin) {
                             <h4 class="panel-title"><?= $info['name'] ?></h4>
                         </div>
                         <div class="panel-body">
-                            <?= $render($this, $plugin, $stat); ?>
+                            <?= $renderResult; ?>
                         </div>
                     </div>
                 </div>
             <?php else: ?>
                 <div class='col-md-6'>
                     <h4><?= $info['name'] ?></h4>
-                    <?= $render($this, $plugin, $stat); ?>
+                    <?= $renderResult; ?>
                 </div>
             <?php endif;
         }
@@ -136,6 +139,9 @@ foreach ($this->bluestats->plugins as $plugin) {
         if (!$info['display']) break;
 
         $info = $plugin->database['stats'][$stat];
+        $renderResult = $render($this, $plugin, $stat);
+        if (!$renderResult)
+            continue;
 
         if ($panelEnable): ?>
             <div class='col-md-6'>
@@ -144,14 +150,14 @@ foreach ($this->bluestats->plugins as $plugin) {
                         <h4 class="panel-title"><?= $info['name'] ?></h4>
                     </div>
                     <div class="panel-body">
-                        <?= $render($this, $plugin, $stat); ?>
+                        <?= $renderResult; ?>
                     </div>
                 </div>
             </div>
         <?php else: ?>
             <div class='col-md-6'>
                 <h4><?= $info['name'] ?></h4>
-                <?= $render($this, $plugin, $stat); ?>
+                <?= $renderResult; ?>
             </div>
         <?php endif;
 
