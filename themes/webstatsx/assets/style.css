@@ -1,3 +1,9 @@
+@media screen and (max-width: 767px) {
+    div.dataTables_wrapper > div.row > div {
+        text-align: inherit;
+    }
+}
+
 /* Bubble Stats */
 
 .circle-tile {

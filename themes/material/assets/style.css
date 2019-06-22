@@ -1,8 +1,12 @@
-
 .quick-info div h3, .quick-info div h1 {
     text-align: center;
 }
 
+@media screen and (max-width: 767px) {
+    div.dataTables_wrapper > div.row > div {
+        text-align: inherit;
+    }
+}
 
 /* Bubble Stats */
 
