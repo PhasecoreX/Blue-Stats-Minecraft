@@ -19,13 +19,14 @@
                 data: {
                     page: page,
                     search: $('#search').val()
-                }
-            }).success(function (data) {
-                var url = data.info.url;
-                $('.players').html('');
-                for (var i in data.data) {
-                    if (data.data.hasOwnProperty(i)) {
-                        $('.players').append('<div class="col-md-3 col-sm-6"><div class="panel panel-default"><div class="panel-body"><a href="' + url.replace('{UUID}', data.data[i].uuid).replace('{NAME}', data.data[i].name) + '"><img src="https://crafatar.com/avatars/' + data.data[i].uuid + '?overlay&size=32.png"> ' + data.data[i].name + '</a></div></div></div>');
+                },
+                success: function (data) {
+                    var url = data.info.url;
+                    $('.players').html('');
+                    for (var i in data.data) {
+                        if (data.data.hasOwnProperty(i)) {
+                            $('.players').append('<div class="col-md-3 col-sm-6"><div class="panel panel-default"><div class="panel-body"><a href="' + url.replace('{UUID}', data.data[i].uuid).replace('{NAME}', data.data[i].name) + '"><img src="https://crafatar.com/avatars/' + data.data[i].uuid + '?overlay&size=32.png" alt="" height="32" width="32"> ' + data.data[i].name + '</a></div></div></div>');
+                        }
                     }
                 }
             });

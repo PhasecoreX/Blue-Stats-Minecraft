@@ -36,15 +36,16 @@
             data: {
                 plugin: plugin,
                 action: 'status'
-            }
-        }).success(function (data) {
-            console.log(data);
-            if (data) {
-                $('.plugin-' + plugin + '-enable').attr('class', "btn btn-success plugin-action plugin-query-enable");
-                $('.plugin-' + plugin + '-disable').attr('class', "btn btn-default plugin-action plugin-query-disable");
-            } else {
-                $('.plugin-' + plugin + '-enable').attr('class', "btn btn-default plugin-action plugin-query-enable");
-                $('.plugin-' + plugin + '-disable').attr('class', "btn btn-danger plugin-action plugin-query-disable");
+            },
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    $('.plugin-' + plugin + '-enable').attr('class', "btn btn-success plugin-action plugin-query-enable");
+                    $('.plugin-' + plugin + '-disable').attr('class', "btn btn-default plugin-action plugin-query-disable");
+                } else {
+                    $('.plugin-' + plugin + '-enable').attr('class', "btn btn-default plugin-action plugin-query-enable");
+                    $('.plugin-' + plugin + '-disable').attr('class', "btn btn-danger plugin-action plugin-query-disable");
+                }
             }
         });
     }
@@ -60,19 +61,20 @@
             data: {
                 plugin: $(this).data('plugin'),
                 action: $(this).data('action')
-            }
-        }).success(function (data) {
-            getPluginStatus($(button).data('plugin'));
-            if (data["code"] == 200) {
-                $('.messages').append('<div class="alert alert-success alert-dismissible">' +
-                    '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                    '    <strong>Success!</strong> ' + $(button).data('plugin') + ' has been ' + $(button).data('action') + 'd' +
-                    '  </div>')
-            } else {
-                $('.messages').append('<div class="alert alert-danger alert-dismissible">' +
-                    '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                    '    <strong>Error!</strong>' + $(button).data('plugin') + ' has not been ' + $(button).data('action') + 'd' +
-                    '  </div>')
+            },
+            success: function (data) {
+                getPluginStatus($(button).data('plugin'));
+                if (data["code"] == 200) {
+                    $('.messages').append('<div class="alert alert-success alert-dismissible">' +
+                        '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                        '    <strong>Success!</strong> ' + $(button).data('plugin') + ' has been ' + $(button).data('action') + 'd' +
+                        '  </div>')
+                } else {
+                    $('.messages').append('<div class="alert alert-danger alert-dismissible">' +
+                        '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                        '    <strong>Error!</strong>' + $(button).data('plugin') + ' has not been ' + $(button).data('action') + 'd' +
+                        '  </div>')
+                }
             }
         });
     });
@@ -86,8 +88,8 @@
                 plugin: 'query',
                 option: 'ip',
                 value:  $('#ip').val()
-            }
-        }).success(function (data) {
+            },
+            success: function (data) {
                 $.ajax('advanced/actions/setConfig.php', {
                     method: 'post',
                     dataType: 'json',
@@ -95,21 +97,22 @@
                         plugin: 'query',
                         option: 'port',
                         value:  $('#port').val()
-                    }
-                }).success(function (data) {
-                    if (data["success"] == true) {
-                        $('.messages').append('<div class="alert alert-success alert-dismissible">' +
-                            '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                            '    <strong>Success!</strong> IP and Port has been set successfully' +
-                            '  </div>')
-                    } else {
-                        $('.messages').append('<div class="alert alert-danger alert-dismissible">' +
-                            '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                            '    <strong>Error!</strong> An error has occurred while setting the IP and Port' +
-                            '  </div>')
+                    },
+                    success: function (data) {
+                        if (data["success"] == true) {
+                            $('.messages').append('<div class="alert alert-success alert-dismissible">' +
+                                '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                                '    <strong>Success!</strong> IP and Port has been set successfully' +
+                                '  </div>')
+                        } else {
+                            $('.messages').append('<div class="alert alert-danger alert-dismissible">' +
+                                '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                                '    <strong>Error!</strong> An error has occurred while setting the IP and Port' +
+                                '  </div>')
+                        }
                     }
                 });
-
-    })
+            }
         });
+    });
 </script>

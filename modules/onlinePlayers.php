@@ -27,7 +27,7 @@ $imageSrc = $this->config->get("image-src");
         }
         ?>
         <a href="<?= $this->bluestats->url->player($link) ?>">
-            <img src="<?= $image ?>" alt="<?= $player ?>" title="<?= $player ?>"
+            <img src="<?= $image ?>" alt="<?= $player ?>" height="64" width="64" title="<?= $player ?>"
                  data-toggle="tooltip" data-placement="top">
         </a>
     <?php endforeach; ?>

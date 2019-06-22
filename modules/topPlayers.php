@@ -48,8 +48,7 @@ $stats   = $this->config->get("stats");
         <div class="col-md-3 col-sm-4 col-xs-6">
             <div class="panel panel-default">
                 <a href="<?= $this->bluestats->url->player($linkId) ?>">
-                    <img src="https://crafatar.com/avatars/<?= isset($uuid) ? $uuid : "00000000000000000000000000000000" ?>?overlay&size=300.png"
-                     alt="" style="width:100%;">
+                    <img src="https://crafatar.com/avatars/<?= isset($uuid) ? $uuid : "00000000000000000000000000000000" ?>?overlay&size=300.png" alt="" style="height:100%;width:100%;">
                 </a>
                 <div class="panel-body">
                     <h4 style="margin-top:0;padding:0;"><a
