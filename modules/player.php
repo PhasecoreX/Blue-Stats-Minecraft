@@ -17,7 +17,7 @@ $render = function ($module, $plugin, $blocks_names) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
 
-        // If group is set to not display, break now to stop rendering
+        // If group is set to not display, continue now to stop rendering
         if (!$info['display']) continue;
 
         $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
@@ -60,7 +60,6 @@ $render = function ($module, $plugin, $blocks_names) {
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
-
         if (!$info['display']) continue;
 
         $statName = $plugin->database["stats"][$stat]["name"];

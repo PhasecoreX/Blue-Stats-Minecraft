@@ -51,7 +51,7 @@ foreach ($this->bluestats->plugins as $plugin) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
 
-        // If group is set to not display, break now to stop rendering
+        // If group is set to not display, continue now to stop rendering
         if (!$info['display']) continue;
 
 

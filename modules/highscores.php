@@ -139,7 +139,7 @@ foreach ($this->bluestats->plugins as $plugin) {
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
-        if (!$info['display']) break;
+        if (!$info['display']) continue;
         if (in_array($stat, $displayedStat)) continue;
 
         $info = $plugin->database['stats'][$stat];
