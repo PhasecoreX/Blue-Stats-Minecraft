@@ -150,7 +150,8 @@ foreach ($plugins as $dir) {
         $config->set("MYSQL_database", $_SESSION["$dir-db"], $dir);
         $config->set("MYSQL_prefix", $_SESSION["$dir-prefix"], $dir);
 
-        $basePlugin = $dir;
+        if ($pluginClass::$pluginType == 'stat')
+            $basePlugin = $dir;
 
     }
 }
