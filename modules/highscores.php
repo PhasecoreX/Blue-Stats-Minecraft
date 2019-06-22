@@ -98,6 +98,7 @@ foreach ($this->bluestats->plugins as $plugin) {
         continue;
 
     echo "<h2>{$plugin->name}</h2>";
+    $displayedStat = array();
 
     if (!isset($plugin->database['groups'])) $plugin->database['groups'] = [];
 
@@ -127,6 +128,8 @@ foreach ($this->bluestats->plugins as $plugin) {
                     <?= $renderResult; ?>
                 </div>
             <?php endif;
+
+            $displayedStat[] = $stat;
         }
         echo "</div>";
     }
@@ -137,6 +140,7 @@ foreach ($this->bluestats->plugins as $plugin) {
         // Set default stat options
         if (!isset($info['display'])) $info['display'] = TRUE;
         if (!$info['display']) break;
+        if (in_array($stat, $displayedStat)) continue;
 
         $info = $plugin->database['stats'][$stat];
         $renderResult = $render($this, $plugin, $stat);
@@ -161,6 +165,7 @@ foreach ($this->bluestats->plugins as $plugin) {
             </div>
         <?php endif;
 
+        $displayedStat[] = $stat;
     }
     echo "</div>";
 }
