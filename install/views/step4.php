@@ -159,25 +159,5 @@ if ($config->setDefault("base_plugin", $basePlugin)) {
     echo '<i class="fa fa-check text-success"></i>Set base plugin to ' . $basePlugin . '<br>';
 }
 
-/* Update theme assets
--------------------------------------*/
-$theme             = $_SESSION["theme"];
-$directory         = ROOT . "/themes/" . $theme . "/assets";
-$scanned_directory = array_diff(scandir($directory), ['..', '.']);
-if (is_writeable(ROOT . "/assets")) {
-    $success = TRUE;
-    foreach ($scanned_directory as $item) {
-        if (!copy(ROOT . "/themes/$theme/assets/$item", ROOT . "/assets/$item")) {
-            echo '<i class="fa fa-times text-danger"></i>Could not copy ' . ROOT . "/themes/$theme/assets/$item to " . ROOT . "/assets/$item <br>";
-            $success = FALSE;
-        }
-    }
-    if ($success)
-        echo '<i class="fa fa-check text-success"></i>Successfully copied theme assets to assets directory<br>';
-}
-else {
-    echo "<i class=\"fa fa-times text-danger\"></i> Cannot copy theme assets to " . ROOT . "/assets/ <br>";
-}
-
 echo '<a href="../admin">Admin Panel</a><br>';
 echo '<a href="../?page=home">BlueStats</a>';

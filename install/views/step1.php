@@ -48,26 +48,6 @@ else {
 <br>
 
 <?php
-if (is_writable('../assets/')) {
-    echo 'Can write to assets folder <i class="fa fa-check text-success"></i>';
-}
-else {
-    echo 'Can not write to assets folder <i class="fa fa-times text-warning"></i> (Themes will not work as expected)';
-    if ($processUser !== NULL) { ?>
-        <br>To fix, run<br>
-        <pre>
-sudo chown <?= $processUser['name'] ?> <?= dirname(dirname(__DIR__)) ?>/assets -R
-sudo chmod 755 <?= dirname(dirname(__DIR__)) ?>/assets -R</pre>
-        <?php
-    }
-    $allowInstall = FALSE;
-}
-
-?>
-
-<br>
-
-<?php
 if (is_writable('../cache/')) {
     echo 'Can write to cache folder <i class="fa fa-check text-success"></i>';
 }
