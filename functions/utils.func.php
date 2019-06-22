@@ -34,10 +34,10 @@ function secondsToTime ($seconds, $contract = TRUE) {
             /* Text mins */
             if (round($mins) > 0) {
                 if (round($mins) > 1) {
-                    $tmins = $mins . " mins";
+                    $tmins = $mins . " minutes";
                 }
                 else {
-                    $tmins = $mins . " min";
+                    $tmins = $mins . " minute";
                 }
             }
             else {
@@ -50,7 +50,7 @@ function secondsToTime ($seconds, $contract = TRUE) {
                     $thours = $hours . " hours";
                 }
                 else {
-                    $thours = $hours . " hours";
+                    $thours = $hours . " hour";
                 }
             }
             else {
