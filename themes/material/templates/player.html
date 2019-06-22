@@ -6,7 +6,7 @@
     </h1>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3" style="padding: 0px; text-align: center;">
         <div id="skin_container"></div>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js"></script>
 	    <script type="text/javascript" src="/themes/material/assets/skinview3d.min.js"></script>
@@ -23,6 +23,7 @@
 		        let skinViewer = new skinview3d.SkinViewer({
 			        domElement: document.getElementById("skin_container"),
 			        height: 500,
+			        width: 292.5,
 			        skinUrl: "https://crafatar.com/skins/{{ playeruuid }}.png"
 		        });
 		        let control = new skinview3d.createOrbitControls(skinViewer);
