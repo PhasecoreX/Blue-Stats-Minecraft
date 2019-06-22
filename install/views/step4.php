@@ -142,7 +142,7 @@ foreach ($plugins as $dir) {
         include ROOT . "/plugins/$dir/$dir.php";
         $pluginClass = "\\BlueStats\\Plugin\\$dir";
         if (!$pluginClass::$isMySQLplugin)
-            break;
+            continue;
 
         $config->set("MYSQL_host", $_SESSION["$dir-host"], $dir);
         $config->set("MYSQL_username", $_SESSION["$dir-username"], $dir);

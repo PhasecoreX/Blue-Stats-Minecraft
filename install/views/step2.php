@@ -59,7 +59,7 @@
                 include dirname(dirname(__dir__)) . "/plugins/$dir/$dir.php";
                 $pluginClass = "\\BlueStats\\Plugin\\$dir";
                 if (!$pluginClass::$isMySQLplugin)
-                    break;
+                    continue;
                 ?>
                 <div class="col-md-6">
                     <h2><?= $dir ?> DataBase</h2>
