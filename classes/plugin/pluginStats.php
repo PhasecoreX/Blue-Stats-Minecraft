@@ -58,6 +58,14 @@ class pluginStats {
                 $player = $player->name;
         }
 
+        $aggregateColumn = "";
+        foreach ($this->database["stats"][$stat]["values"] as $info) {
+            if ($info['aggregate']) {
+                $aggregateColumn = $info['column'];
+                break;
+            }
+        }
+
         $query = "SELECT ";
 
         if ($options['summary']) {
@@ -96,6 +104,10 @@ class pluginStats {
                 $query = substr($query, 0, -1);
             }
         }
+
+        // Sort by aggregate value descending
+        if ($aggregateColumn != "")
+            $query .= " ORDER BY $aggregateColumn DESC";
 
         if ($stmt->prepare($query)) {
             $stmt->bind_param("s", $player);
