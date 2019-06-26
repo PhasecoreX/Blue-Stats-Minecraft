@@ -49,10 +49,15 @@ foreach ($this->bluestats->plugins as $plugin) {
     
     foreach ($plugin->database['groups'] as $groupId => $group) {
         // Set default stat options
-        if (!isset($info['display'])) $info['display'] = TRUE;
+        $pageName = "grandTotals";
+        if (!isset($group['display']) || (gettype($group['display']) == "boolean" && $group['display'])) {
+            $group['display'] = array($pageName);
+        } else if (!$group['display']) {
+            $group['display'] = array();
+        }
 
-        // If group is set to not display, continue now to stop rendering
-        if (!$info['display']) continue;
+        // If stat is set to not display, continue now to stop rendering
+        if (!in_array($pageName, $group['display'])) continue;
 
 
         if ($panelEnable): ?>

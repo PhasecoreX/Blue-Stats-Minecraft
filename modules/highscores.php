@@ -103,6 +103,17 @@ foreach ($this->bluestats->plugins as $plugin) {
     if (!isset($plugin->database['groups'])) $plugin->database['groups'] = [];
 
     foreach ($plugin->database['groups'] as $groupId => $group) {
+        // Set default stat options
+        $pageName = "highscores";
+        if (!isset($group['display']) || (gettype($group['display']) == "boolean" && $group['display'])) {
+            $group['display'] = array($pageName);
+        } else if (!$group['display']) {
+            $group['display'] = array();
+        }
+
+        // If stat is set to not display, continue now to stop rendering
+        if (!in_array($pageName, $group['display'])) continue;
+
         echo "<h3>{$group['name']}</h3>";
         echo "<div class='row'>";
         foreach ($group['stats'] as $stat) {
@@ -138,8 +149,15 @@ foreach ($this->bluestats->plugins as $plugin) {
 
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
-        if (!isset($info['display'])) $info['display'] = TRUE;
-        if (!$info['display']) continue;
+        $pageName = "highscores";
+        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+            $info['display'] = array($pageName);
+        } else if (!$info['display']) {
+            $info['display'] = array();
+        }
+
+        // If stat is set to not display, continue now to stop rendering
+        if (!in_array($pageName, $info['display'])) continue;
         if (in_array($stat, $displayedStat)) continue;
 
         $info = $plugin->database['stats'][$stat];

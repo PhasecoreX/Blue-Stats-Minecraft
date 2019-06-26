@@ -15,10 +15,15 @@ $render = function ($module, $plugin, $blocks_names) {
     // First render the groups defined in the plugin definition
     foreach ($plugin->database['groups'] as $groupId => $info) {
         // Set default stat options
-        if (!isset($info['display'])) $info['display'] = TRUE;
+        $pageName = "player";
+        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+            $info['display'] = array($pageName);
+        } else if (!$info['display']) {
+            $info['display'] = array();
+        }
 
-        // If group is set to not display, continue now to stop rendering
-        if (!$info['display']) continue;
+        // If stat is set to not display, continue now to stop rendering
+        if (!in_array($pageName, $info['display'])) continue;
 
         $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
         $table  = New Table();
@@ -59,8 +64,15 @@ $render = function ($module, $plugin, $blocks_names) {
     // Loop through all defined stats in plugin definition
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
-        if (!isset($info['display'])) $info['display'] = TRUE;
-        if (!$info['display']) continue;
+        $pageName = "player";
+        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+            $info['display'] = array($pageName);
+        } else if (!$info['display']) {
+            $info['display'] = array();
+        }
+
+        // If stat is set to not display, continue now to stop rendering
+        if (!in_array($pageName, $info['display'])) continue;
 
         $statName = $plugin->database["stats"][$stat]["name"];
         $table    = New Table();

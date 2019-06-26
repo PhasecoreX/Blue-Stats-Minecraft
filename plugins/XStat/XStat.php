@@ -23,7 +23,6 @@ class XStat extends plugin
         ],
         "groups" => [
             "time" => [
-                "display" => true,
                 "name" => "Time",
                 "headers" => [
                     "Stat",
@@ -38,7 +37,6 @@ class XStat extends plugin
                 ],
             ],
             "items" => [
-                "display" => true,
                 "name" => "Items",
                 "headers" => [
                     "Stat",
@@ -55,7 +53,6 @@ class XStat extends plugin
                 ],
             ],
             "combat" => [
-                "display" => true,
                 "name" => "Combat",
                 "headers" => [
                     "Stat",
@@ -70,7 +67,6 @@ class XStat extends plugin
                 ],
             ],
             "others" => [
-                "display" => true,
                 "name" => "Other Stats",
                 "headers" => [
                     "Stat",
@@ -409,6 +405,9 @@ class XStat extends plugin
             "distance_traveled_type" => [
                 "database" => "move",
                 "name" => "Distance Traveled (by Type)",
+                "display" => [
+                    "player" # Only show on Player page, not highscore or grand total pages
+                ],
                 "user_identifier" => "uuid",
                 "text" => [
                     "en_US" => [
@@ -441,6 +440,9 @@ class XStat extends plugin
             "distance_traveled_biome" => [
                 "database" => "move",
                 "name" => "Distance Traveled (by Biome)",
+                "display" => [
+                    "player" # Only show on Player page, not highscore or grand total pages
+                ],
                 "user_identifier" => "uuid",
                 "text" => [
                     "en_US" => [
