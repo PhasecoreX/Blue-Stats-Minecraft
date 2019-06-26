@@ -59,25 +59,32 @@ class pluginStats {
         }
 
         $aggregateColumn = "";
-        foreach ($this->database["stats"][$stat]["values"] as $info) {
+        $aggregateID = "";
+        foreach ($this->database["stats"][$stat]["values"] as $id => $info) {
             if ($info['aggregate']) {
                 $aggregateColumn = $info['column'];
+                $aggregateID = $id;
                 break;
             }
         }
+        
+        // Get aggregate type
+        $aggregateType = "sum";
+        if (isset($this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"]))
+            $aggregateType = $this->database["stats"][$stat]["values"][$aggregateID]["aggregate_type"];
 
         $query = "SELECT ";
 
         if ($options['summary']) {
             foreach ($this->database["stats"][$stat]["values"] as $info) {
                 if ($info['dataType'] != "world" || $combineWorlds === FALSE)
-                    $query .= "sum(`$info[column]`) as $info[column],";
+                    $query .= "$aggregateType(`$info[column]`) as $info[column],";
             }
         } else {
             foreach ($this->database["stats"][$stat]["values"] as $info) {
                 if ($info['dataType'] != "world" || $combineWorlds === FALSE) {
                     if ($info['aggregate'] && $combineWorlds)
-                        $query .= "sum(`$info[column]`) as $info[column],";
+                        $query .= "$aggregateType(`$info[column]`) as $info[column],";
                     else
                         $query .= "`$info[column]`,";
                 }

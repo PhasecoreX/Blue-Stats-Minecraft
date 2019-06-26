@@ -66,8 +66,23 @@ class XStat extends plugin
                     "death",
                 ],
             ],
+            "records" => [
+                "name" => "Records",
+                "display" => [
+                    "player",
+                    "highscores"
+                ],
+                "headers" => [
+                    "Stat",
+                    "Total",
+                ],
+                "stats" => [
+                    "record_distance_sprint",
+                    "record_distance_glide"
+                ],
+            ],
             "others" => [
-                "name" => "Other Stats",
+                "name" => "Other Stat Totals",
                 "headers" => [
                     "Stat",
                     "Total",
@@ -788,7 +803,7 @@ class XStat extends plugin
             //             "column" => "last_modified", // column in which the data is stored in the table
             //             "dataType" => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
             //             "aggregate" => true, // If true this column is used as a stat summary
-            //             "aggregate_type" => "max", // TODO: implement aggregate_type. Default should be sum if not specified.
+            //             "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
             //             "name" => "Date", // Human readable name of the stat
             //         ],
             //     ],
@@ -816,7 +831,7 @@ class XStat extends plugin
             //             "column" => "value", // column in which the data is stored in the table
             //             "dataType" => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
             //             "aggregate" => true, // If true this column is used as a stat summary
-            //             "aggregate_type" => "max", // TODO: implement aggregate_type. Default should be sum if not specified.
+            //             "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
             //             "name" => "Date", // Human readable name of the stat
             //         ],
             //     ],
@@ -981,6 +996,62 @@ class XStat extends plugin
             //         ],
             //     ],
             // ],
+            "record_distance_sprint" => [
+                "database" => "record_double",
+                "name" => "Longest Sprint Distance",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Sprinted {VALUE} block in one go",
+                        "plural" => "Sprinted {VALUE} blocks in one go",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "world",
+                        "dataType" => "world",
+                        "aggregate" => false,
+                        "name" => "World",
+                    ],
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "round_2", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
+                        "name" => "Blocks", // Human readable name of the stat
+                    ],
+                ],
+                "where"=>"type = 'distance_sprint'",
+            ],
+            "record_distance_glide" => [
+                "database" => "record_double",
+                "name" => "Longest Glide Distance",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Glided {VALUE} block in one go",
+                        "plural" => "Glided {VALUE} blocks in one go",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "world",
+                        "dataType" => "world",
+                        "aggregate" => false,
+                        "name" => "World",
+                    ],
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "round_2", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
+                        "name" => "Blocks", // Human readable name of the stat
+                    ],
+                ],
+                "where"=>"type = 'distance_glide'",
+            ],
             // "teleports" => [
             //     "database" => "teleports",
             //     "name" => "Teleports",

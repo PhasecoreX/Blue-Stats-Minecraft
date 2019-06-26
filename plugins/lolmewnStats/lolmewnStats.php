@@ -484,7 +484,7 @@ class lolmewnStats extends plugin
                         "column"    => "value", // column in which the data is stored in the table
                         "dataType"  => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
                         "aggregate" => TRUE, // If true this column is used as a stat summary
-                        "aggregate_type" => "max", // TODO: implement aggregate_type. Default should be sum if not specified.
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
                         "name"      => "Date"    // Human readable name of the stat
                     ],
                     [
@@ -510,7 +510,7 @@ class lolmewnStats extends plugin
                         "column"    => "value", // column in which the data is stored in the table
                         "dataType"  => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
                         "aggregate" => TRUE, // If true this column is used as a stat summary
-                        "aggregate_type" => "max", // TODO: implement aggregate_type. Default should be sum if not specified.
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
                         "name"      => "Date"    // Human readable name of the stat
                     ],
                     [
