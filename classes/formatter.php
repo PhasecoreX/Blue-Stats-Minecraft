@@ -31,8 +31,8 @@ class formatter {
 
     public function date($value) {
         if (is_numeric($value))
-            return date('H:i m-d-y', $value/1000);
-        return $value;
+            return fuzzyDate(date(DateTime::ATOM, $value/1000));
+        return fuzzyDate(date(DateTime::ATOM, strtotime($value)));
     }
 
     public function time($value) {
