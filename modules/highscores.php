@@ -26,15 +26,18 @@ $render = function ($module, $plugin, $stat) {
 
     $table = new Table();
 
-    $aggregateID = "";
-
-    // Get aggregate stat id
-    foreach ($info["values"] as $id => $info) {
-        if ($info['aggregate']) {
-            $aggregateID = $id;
+    // Get aggregate stat formatter
+    $formatter = "int";
+    foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
+        if ($columns['aggregate']) {
+            $formatter = $columns['dataType'];
             break;
         }
     }
+
+    // We are not showing date stats here
+    if ($formatter == "date")
+        return;
 
     $stats = $plugin->stats->statList($stat, $this->count);
 
@@ -58,7 +61,7 @@ $render = function ($module, $plugin, $stat) {
         }
 
         // Format according to datatype of value
-        $row['aggregate'] = $module->bluestats->formatter->format($row['aggregate'], $plugin->database['stats'][$stat]["values"][$aggregateID]["dataType"]);
+        $row['aggregate'] = $module->bluestats->formatter->format($row['aggregate'], $formatter);
 
         $values = [];
         array_push($values, $name);

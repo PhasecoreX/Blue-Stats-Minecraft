@@ -7,9 +7,6 @@ $render = function ($module, $plugin, $statGroup, $headers) {
     $table  = New Table();
 
     foreach ($statGroup as $stat) {
-        $values = [$plugin->database['stats'][$stat]['name']];
-        $data   = $plugin->stats->sum($stat);
-
         // Get aggregate stat formatter
         $formatter = "int";
         foreach ($plugin->database['stats'][$stat]["values"] as $columns) {
@@ -18,6 +15,14 @@ $render = function ($module, $plugin, $statGroup, $headers) {
                 break;
             }
         }
+        
+        // We are not showing date stats here
+        if ($formatter == "date")
+            continue;
+
+        $values = [$plugin->database['stats'][$stat]['name']];
+        $data   = $plugin->stats->sum($stat);
+
         array_push($values, $module->bluestats->formatter->format($data, $formatter));
         call_user_func_array([$table, 'addRecord'], $values);
     }
