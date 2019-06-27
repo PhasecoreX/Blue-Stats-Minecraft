@@ -105,7 +105,7 @@ foreach ($this->bluestats->plugins as $plugin) {
     foreach ($plugin->database['groups'] as $groupId => $group) {
         // Set default stat options
         $pageName = "highscores";
-        if (!isset($group['display']) || (gettype($group['display']) == "boolean" && $group['display'])) {
+        if (!isset($group['display']) || (is_bool($group['display']) && $group['display'])) {
             $group['display'] = array($pageName);
         } else if (!$group['display']) {
             $group['display'] = array();
@@ -150,7 +150,7 @@ foreach ($this->bluestats->plugins as $plugin) {
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
         $pageName = "highscores";
-        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+        if (!isset($info['display']) || (is_bool($info['display']) && $info['display'])) {
             $info['display'] = array($pageName);
         } else if (!$info['display']) {
             $info['display'] = array();

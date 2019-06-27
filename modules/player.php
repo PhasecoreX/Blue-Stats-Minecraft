@@ -16,7 +16,7 @@ $render = function ($module, $plugin, $blocks_names) {
     foreach ($plugin->database['groups'] as $groupId => $info) {
         // Set default stat options
         $pageName = "player";
-        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+        if (!isset($info['display']) || (is_bool($info['display']) && $info['display'])) {
             $info['display'] = array($pageName);
         } else if (!$info['display']) {
             $info['display'] = array();
@@ -65,7 +65,7 @@ $render = function ($module, $plugin, $blocks_names) {
     foreach ($plugin->database['stats'] as $stat => $info) {
         // Set default stat options
         $pageName = "player";
-        if (!isset($info['display']) || (gettype($info['display']) == "boolean" && $info['display'])) {
+        if (!isset($info['display']) || (is_bool($info['display']) && $info['display'])) {
             $info['display'] = array($pageName);
         } else if (!$info['display']) {
             $info['display'] = array();

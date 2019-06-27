@@ -50,7 +50,7 @@ foreach ($this->bluestats->plugins as $plugin) {
     foreach ($plugin->database['groups'] as $groupId => $group) {
         // Set default stat options
         $pageName = "grandTotals";
-        if (!isset($group['display']) || (gettype($group['display']) == "boolean" && $group['display'])) {
+        if (!isset($group['display']) || (is_bool($group['display']) && $group['display'])) {
             $group['display'] = array($pageName);
         } else if (!$group['display']) {
             $group['display'] = array();
