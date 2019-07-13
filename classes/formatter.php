@@ -30,9 +30,13 @@ class formatter {
     }
 
     public function date($value) {
+        if (!isset($value))
+            return "";
         if (is_numeric($value))
-            return fuzzyDate(date(DateTime::ATOM, $value/1000));
-        return fuzzyDate(date(DateTime::ATOM, strtotime($value)));
+            $datetime = date(DateTime::ATOM, $value/1000);
+        else
+            $datetime = date(DateTime::ATOM, strtotime($value));
+        return "<span class=\"time_render\" datetime=\"$datetime\">...</span>";
     }
 
     public function time($value) {
