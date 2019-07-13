@@ -30,8 +30,8 @@ class XStat extends plugin
                 ],
                 "stats" => [
                     "joins",
-                    "last_join",
-                    "last_leave",
+                    "last_join_server",
+                    "last_leave_server",
                     "time_played",
                     "time_moving",
                     "time_standing",
@@ -786,7 +786,7 @@ class XStat extends plugin
             "last_join" => [
                 "database" => "player_date",
                 "name" => "Last Login",
-                "display" => FALSE,
+                "display" => ["player"],
                 "user_identifier" => "uuid",
                 "text" => [
                     "en_US" => [
@@ -797,7 +797,7 @@ class XStat extends plugin
                 "values" => [
                     [
                         "column" => "world",
-                        "dataType" => "world",
+                        "dataType" => "item_name",
                         "aggregate" => false,
                         "name" => "World",
                     ],
@@ -811,10 +811,32 @@ class XStat extends plugin
                 ],
                 "where"=>"type = 'last_join'",
             ],
+            "last_join_server" => [
+                "database" => "player_date",
+                "name" => "Last Login",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Last joined on {VALUE}",
+                        "plural" => "Last joined on {VALUE}",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
+                        "name" => "Date", // Human readable name of the stat
+                    ],
+                ],
+                "where"=>"type = 'last_join_server'",
+            ],
             "last_leave" => [
                 "database" => "player_date",
                 "name" => "Last Logout",
-                "display" => FALSE,
+                "display" => ["player"],
                 "user_identifier" => "uuid",
                 "text" => [
                     "en_US" => [
@@ -825,7 +847,7 @@ class XStat extends plugin
                 "values" => [
                     [
                         "column" => "world",
-                        "dataType" => "world",
+                        "dataType" => "item_name",
                         "aggregate" => false,
                         "name" => "World",
                     ],
@@ -838,6 +860,28 @@ class XStat extends plugin
                     ],
                 ],
                 "where"=>"type = 'last_leave'",
+            ],
+            "last_leave_server" => [
+                "database" => "player_date",
+                "name" => "Last Logout",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Last seen on {VALUE}",
+                        "plural" => "Last seen on {VALUE}",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "date", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
+                        "name" => "Date", // Human readable name of the stat
+                    ],
+                ],
+                "where"=>"type = 'last_leave_server'",
             ],
             "messages_sent" => [
                 "database" => "player_int",
