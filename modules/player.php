@@ -186,8 +186,11 @@ $render = function ($module, $plugin, $blocks_names) {
     return $output;
 };
 
-if (isset($this->args[0]))
+if (isset($this->args[0])) {
+    if ($this->args[0] == "basePlugin")
+        $this->args[0] = $this->bluestats->basePlugin->name;
     return print($render($this, $this->bluestats->plugins[$this->args[0]], $blocks_names));
+}
 
 $output = "";
 
