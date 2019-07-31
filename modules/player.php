@@ -1,4 +1,10 @@
 <?php
+
+// Option to whether or not to put the player stats in a bootstrap panel
+$this->config->setDefault("panelEnable", TRUE);
+
+$this->panelEnable = $this->config->get("panelEnable");
+
 /** @var module $this */
 $blocks_names = json_decode(file_get_contents($this->bluestats->appPath . "/items.json"), TRUE);
 
@@ -25,7 +31,6 @@ $render = function ($module, $plugin, $blocks_names) {
         // If stat is set to not display, continue now to stop rendering
         if (!in_array($pageName, $info['display'])) continue;
 
-        $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
         $table  = New Table();
 
         foreach ($plugin->database["groups"][$groupId]['stats'] as $stat) {
@@ -58,7 +63,23 @@ $render = function ($module, $plugin, $blocks_names) {
         }
         call_user_func_array([$table, 'makeHeader'], $values);
 
-        $output .= $table->tableToHTML(FALSE);
+        if ($this->panelEnable) {
+            $output .= "<div class='row'>";
+            $output .= "    <div class='col-md-12'>";
+            $output .= "        <div class=\"panel panel-default\">";
+            $output .= "            <div class=\"panel-heading\">";
+            $output .= "                <h4 class=\"panel-title\">{$plugin->database["groups"][$groupId]["name"]}</h4>";
+            $output .= "            </div>";
+            $output .= "            <div class=\"panel-body\">";
+            $output .= "                ".$table->tableToHTML(FALSE);
+            $output .= "            </div>";
+            $output .= "        </div>";
+            $output .= "    </div>";
+            $output .= "</div>";
+        } else {
+            $output .= "<h4>{$plugin->database["groups"][$groupId]["name"]}</h4>";
+            $output .= $table->tableToHTML(FALSE);
+        }
     }
 
     // Loop through all defined stats in plugin definition
@@ -98,9 +119,6 @@ $render = function ($module, $plugin, $blocks_names) {
             $data[0] === NULL ||
             $data[0][$aggregateName] === NULL)
             continue;
-
-        // Add stat title
-        $output .= "<h4>$statName</h4>";
 
         foreach ($data as $key => $entry) {
             $values = [];
@@ -145,7 +163,24 @@ $render = function ($module, $plugin, $blocks_names) {
             }
         }
         call_user_func_array([$table, 'makeHeader'], $values);
-        $output .= $table->tableToHTML();
+
+        if ($this->panelEnable) {
+            $output .= "<div class='row'>";
+            $output .= "    <div class='col-md-12'>";
+            $output .= "        <div class=\"panel panel-default\">";
+            $output .= "            <div class=\"panel-heading\">";
+            $output .= "                <h4 class=\"panel-title\">$statName</h4>";
+            $output .= "            </div>";
+            $output .= "            <div class=\"panel-body\">";
+            $output .= "                ".$table->tableToHTML();
+            $output .= "            </div>";
+            $output .= "        </div>";
+            $output .= "    </div>";
+            $output .= "</div>";
+        } else {
+            $output .= "<h4>$statName</h4>";
+            $output .= $table->tableToHTML();
+        }
     }
 
     return $output;
