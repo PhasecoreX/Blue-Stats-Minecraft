@@ -52,6 +52,23 @@ $render = function ($module, $plugin, $blocks_names) {
                 if ($key == $aggregateName)
                     array_push($values, $module->bluestats->formatter->format($entry, $formatter));
             }
+            // See if the details for this stat will be printed. If so, link to it.
+            $pageName = "player";
+            $display = array($pageName);
+            if (isset($plugin->database['stats'][$stat]["display"])) {
+                $display = $plugin->database['stats'][$stat]["display"];
+            }
+            if (is_bool($display)) {
+                if ($display) {
+                    $display = array($pageName);
+                } else {
+                    $display = array();
+                }
+            }
+            if (in_array($pageName, $display) && $values[1] > 0) {
+                $href_id = strtolower($plugin->name . "_" . str_replace(" ", "_", $values[0]));
+                $values[0] = "<a href='#$href_id'>$values[0]</a>";
+            }
             call_user_func_array([$table, 'addRecord'], $values);
         }
 
@@ -164,10 +181,12 @@ $render = function ($module, $plugin, $blocks_names) {
         }
         call_user_func_array([$table, 'makeHeader'], $values);
 
+        $href_id = strtolower($plugin->name . "_" . str_replace(" ", "_", $statName));
         if ($this->panelEnable) {
             $output .= "<div class='row'>";
             $output .= "    <div class='col-md-12'>";
             $output .= "        <div class=\"panel panel-default\">";
+            $output .= "            <a id=\"$href_id\"></a>";
             $output .= "            <div class=\"panel-heading\">";
             $output .= "                <h4 class=\"panel-title\">$statName</h4>";
             $output .= "            </div>";
@@ -178,7 +197,7 @@ $render = function ($module, $plugin, $blocks_names) {
             $output .= "    </div>";
             $output .= "</div>";
         } else {
-            $output .= "<h4>$statName</h4>";
+            $output .= "<h4><a id=\"$href_id\"></a>$statName</h4>";
             $output .= $table->tableToHTML();
         }
     }
