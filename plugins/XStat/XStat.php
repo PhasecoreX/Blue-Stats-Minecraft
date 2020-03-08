@@ -22,6 +22,19 @@ class XStat extends plugin
             "where" => "type = 'name'", // Guaranteed to exist and be one record per person
         ],
         "groups" => [
+            "status" => [
+                "name" => "Status",
+                "display" => [
+                    "player"
+                ],
+                "headers" => [
+                    "Stat",
+                    "Value",
+                ],
+                "stats" => [
+                    "current_level"
+                ],
+            ],
             "time" => [
                 "name" => "Time",
                 "headers" => [
@@ -80,7 +93,8 @@ class XStat extends plugin
                 ],
                 "stats" => [
                     "record_distance_sprint",
-                    "record_distance_glide"
+                    "record_distance_glide",
+                    "record_player_level"
                 ],
             ],
             "others" => [
@@ -217,6 +231,27 @@ class XStat extends plugin
                         "name" => "Count", // Human readable name of the stat
                     ],
                 ],
+            ],
+            "current_level" => [
+                "database" => "player_int",
+                "name" => "Current Level",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Player level {VALUE}",
+                        "plural" => "Player level {VALUE}",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "int", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "name" => "Level", // Human readable name of the stat
+                    ],
+                ],
+                "where" => "type = 'level'",
             ],
             // "buckets_emptied" => [
             //     "database" => "buckets_emptied",
@@ -1097,6 +1132,34 @@ class XStat extends plugin
                     ],
                 ],
                 "where"=>"type = 'distance_glide'",
+            ],
+            "record_player_level" => [
+                "database" => "record_int",
+                "name" => "Highest Player Level",
+                "display" => FALSE,
+                "user_identifier" => "uuid",
+                "text" => [
+                    "en_US" => [
+                        "single" => "Was level {VALUE} at one time",
+                        "plural" => "Was level {VALUE} at one time",
+                    ],
+                ],
+                "values" => [
+                    [
+                        "column" => "world",
+                        "dataType" => "world",
+                        "aggregate" => false,
+                        "name" => "World",
+                    ],
+                    [
+                        "column" => "value", // column in which the data is stored in the table
+                        "dataType" => "int", // The type of data stored in the column. This can be: time, date, mob, player, world, item_id, item_type, item_name, int
+                        "aggregate" => true, // If true this column is used as a stat summary
+                        "aggregate_type" => "max", // Instead of a sum, this stat will only be the max value of this column
+                        "name" => "Level", // Human readable name of the stat
+                    ],
+                ],
+                "where"=>"type = 'player_level'",
             ],
             // "teleports" => [
             //     "database" => "teleports",
