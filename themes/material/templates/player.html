@@ -37,7 +37,7 @@
     };
     if (isWebGLAvailable()) {
         function parseElementsAtOnload() {
-        var links = ["https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js","/themes/material/assets/skinview3d.min.js","/themes/material/assets/initializeskinview3d.js"],
+        var links = ["https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js","{{ url:home }}/themes/material/assets/skinview3d.min.js","{{ url:home }}/themes/material/assets/initializeskinview3d.js"],
         element, i;
         for (i = 0; i < links.length; i++) {
         if (links[i].substring(links[i].length - 3) === "css") {
